@@ -14,7 +14,7 @@ import br.com.commons.util.service.EmailService;
 
 @RestController
 @RequestMapping("/email")
-public class EmailControler {
+public class EmailController {
 	
 	@Autowired
 	private EmailService emailService;
@@ -22,10 +22,12 @@ public class EmailControler {
 	@PostMapping
 	public ResponseEntity<EmailRequest> send(@RequestBody EmailRequest emailRequest){
 		try {
-			emailService.sendEmail(emailRequest);
+			emailService.sendEmailHtml(emailRequest);
 			return new ResponseEntity<EmailRequest>(emailRequest, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<EmailRequest>(e, HttpStatus.);
+			//TODO Tratar possiveis erros
+			e.printStackTrace();
+			return new ResponseEntity<EmailRequest>(emailRequest, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		//TODO registrar no Kafka o envio
